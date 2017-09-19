@@ -1,0 +1,7 @@
+.color {
+  color: blue;
+}
+
+:global(.color-test) {
+  color: red;
+}
