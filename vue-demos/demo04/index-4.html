@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <div id="app-4">
+        <p>{{ fullname }}</p>
+    </div>
+    <div id="app-5">
+        <p>{{ fullname }}</p>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app-4',
+            data: {
+                firstname: 'john',
+                lastname: 'marz',
+                fullname: 'john marz',
+            },
+            watch: {
+                firstname: function(val) {
+                    this.fullname = val + ' ' + this.lastname;
+                },
+                lastname: function(val) {
+                    this.fullname = this.firstname + ' ' + val;
+                },
+            }
+        });
+        vm.firstname = 'jack';
+        vm.lastname = 'son';
+
+        var vm2 = new Vue({
+            el: '#app-5',
+            data: {
+                firstname: 'john',
+                lastname: 'marz',
+            },
+            computed: {
+                fullname: function() {
+                    return this.firstname + ' ' + this.lastname;
+                }
+            },
+        });
+        vm2.firstname = 'jack';
+        vm2.lastname = 'son';
+    </script>
+</body>
+</html>

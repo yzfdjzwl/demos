@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+    <style>
+        .active {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <div>
+    <template v-if="ok" id="app">
+        <title>Title</title>
+        <p>Paragraph 1</p>
+        <p>Paragraph 2</p>
+    </template>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                ok: true,
+            }
+        });
+    </script>
+</body>
+</html>

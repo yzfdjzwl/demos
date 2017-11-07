@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <div id="app-3">
+        <p>{{ message }}</p>
+        <p>{{ time }}</p>
+        <p>{{ time2 }}</p>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app-3',
+            data: {
+                message: 'hello',
+            },
+            computed: {
+                time: function() {
+                    return Date.now() + this.message;
+                },
+                time2: function() {
+                    return Date.now();
+                },
+            }
+        });
+        console.log(vm.time, vm.time2);
+        vm.message = 'others';
+        vm.message = 'others2';
+        console.log(vm.time, vm.time2);
+    </script>
+</body>
+</html>
