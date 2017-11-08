@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="余正峰">
+	<meta name="keywords" content="余正峰-前端-动机在未来-web开发">
+	<meta name="description" content="这是我放作品的一个小站, yzfdjzwl@gmail.com">
+	<meta name="generator" content="vim">
+	<title>动机在未来作品集</title>
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+</head>
+<body>
+	<div class="warp">
+		<ol id="ol" class="list">
+		</ol>
+	</div>
+	<script type="text/javascript">
+		var data = [
+			[
+				{title : '第一章 一些简单练习'},
+				{url : 'src/simple-practice/1/index.html', title : '动态表格'},
+				{url : 'src/simple-practice/2/index.html', title : '懒加载'},
+				{url : 'src/simple-practice/3/index.html', title : '瀑布流'},
+			],
+			[
+				{title : '第二章 静态页面练习'},
+				{url : 'src/static-page-practice/1/index.html', title : 'qq首页静态页面练习'},
+				{url : 'src/static-page-practice/2/index.html', title : 'CSS3小练习'},
+			],
+			[
+				{title : '第三章 图片常用'},
+				{url : 'src/carousel/1/index.html', title : '轮播之透明度'},
+				{url : 'src/carousel/2/index.html', title : '无缝轮播'},
+				{url : 'src/carousel/3/index.html', title : '轮播图'}
+			],
+			[
+				{title : '第四章 JavaScript特效'},
+				{url : 'src/special-effects/1/index.html', title : '粒子特效'}
+			],
+			[
+				{title : '第五章 ES5面向对象实战'},
+				{url : 'src/object-oriented-combat/1/index.html', title : 'tab切换'},
+				{url : 'src/object-oriented-combat/2/index.html', title : 'React实现todolist'},
+				{url : 'src/object-oriented-combat/3/index.html', title : '原生JS实现todolist'},
+			]
+		];
+		var ol = document.getElementById("ol");
+		var item;
+		var str = "";
+
+		for(var i = 0;i < data.length;i++) {
+			item = data[i];
+			for(var j = 0;j < item.length;j++) {
+				if(j == 0) {
+					str += '<li><h1><a href="javascript:;" title="' + item[j].title + '">' + item[j].title + '</a></h1><dl class="hide">';
+				} else {
+					str += '<dd><a href="' + item[j].url + '" target="_blank" title="' + item[j].title + '">' + item[j].title + '</a></dd>';
+				}
+ 				if (j == item.length - 1) {
+					str += "</dl></li>";
+				}
+			}
+		}
+
+		ol.innerHTML = str;
+
+		var aBox = document.getElementsByTagName("h1");
+		var aDl = document.getElementsByTagName("dl");
+
+		for(var i = 0;i < aBox.length;i++) {
+			aBox[i].index = i;
+			aBox[i].onclick = function() {
+				if(aDl[this.index].className == 'hide') {
+					// 清空
+					for(var i = 0;i < aDl.length;i++) {
+						aDl[i].className = 'hide';
+					}
+					aDl[this.index].className = 'show';
+
+				} else if(aDl[this.index].className == 'show') {
+					for(var i = 0;i < aDl.length;i++) {
+						aDl[i].className = 'hide';
+					}
+				}
+			};
+		}
+	</script>
+</body>
+</html>

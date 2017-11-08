@@ -1,0 +1,175 @@
+<!-- 
+	time: 2016-11-08
+	author: 余正峰
+	E-mail: yzfdjzwl@163.com
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>轮播切换</title>
+	<style type="text/css">
+		* {margin: 0;padding: 0;}
+		ul, li {list-style: none; }
+		.clear:after {display: block;clear: both;content: "";}
+		.carousel {width: 980px;height: 210px;position: relative;border: 1px solid gray;overflow: hidden;margin: 0 auto;}
+		.carousel .imgs {width: 9800px;height: 210px;overflow: hidden;position: absolute;}
+		.carousel .imgs li {float: left;}
+		.carousel .imgs img {width: 980px;height: 210px;}
+		.carousel .lt, .carousel .gt{display: block;position: absolute;top: 80px;width: 50px;height: 50px;font-size: 40px;font-weight: bold;line-height: 50px;text-align: center; color: white;background: rgba(0, 0, 0, .3);cursor: pointer;}
+		.carousel .lt {left:0;}
+		.carousel .gt {right:0;}
+		.carousel .dot {position: absolute;bottom: 20px;left: 452.5px;}
+		.carousel .dot li {float: left;height: 10px;width: 10px;border-radius: 5px;background: rgba(0, 0, 0, .3);margin-right: 5px;cursor: pointer;}
+		.carousel .dot li.on {background: white;}
+	</style>
+</head>
+<body>
+	<div class="carousel" id="carousel">
+		<ul class="imgs clear" id="warper">
+			<li><a href="#"><img src="images/1.jpg" /></a></li>	
+			<li><a href="#"><img src="images/2.png" /></a></li>	
+			<li><a href="#"><img src="images/3.jpg" /></a></li>	
+			<li><a href="#"><img src="images/4.png" /></a></li>	
+			<li><a href="#"><img src="images/5.jpg" /></a></li>	
+		</ul>
+		<span class="lt" id="lt">&lt;</span>	
+		<span class="gt" id="gt">&gt;</span>	
+		<ul class="dot" id="dot">
+			<li class="on"></li>
+			<li></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+</body>
+<script type="text/javascript">
+	function $(id) {
+		return document.getElementById(id);
+	}
+
+	var warper = $("warper");
+	var carousel = $("warper");
+	var index = 0; // 图片的下标，从0开始 
+	var timer = null;
+	var dot = $("dot");
+	var dots = dot.getElementsByTagName("li");
+	var imgWidth = warper.getElementsByTagName("img")[0].offsetWidth;
+	var aLi = warper.getElementsByTagName("li");
+
+	// 初始化
+	for(var i = 0, temp = aLi.length;i < temp;i++) {
+		warper.appendChild(aLi[i].cloneNode(true));
+	}
+	var newLen = aLi.length; 
+	var oldLen = aLi.length / 2;
+
+
+	var gt = $("gt"); // 右边的 
+	var lt = $("lt"); // 左边的
+
+	gt.onclick = next;
+	lt.onclick = prev;
+
+	function next() {
+		if(index < newLen - 1) {
+			index++;
+		} else {
+			// 10往后翻 就是 5往后翻
+			index = oldLen;
+			warper.style.left = (oldLen - 1) * (-imgWidth) + "px";
+		}
+		// 左移动
+		move(warper, "left", index * (-imgWidth));
+		// 设置dot样式
+		tab(dots, index);
+	}
+
+	function prev() {
+		if(index > 0) {
+			index--;
+		} else {
+			index = oldLen - 1;
+			// 1往前翻 就是 6往前翻
+			warper.style.left = (oldLen) * (-imgWidth) + "px";
+		}
+		// 右移动
+		move(warper, "left", index * (-imgWidth));
+		// 设置dot样式
+		tab(dots, index);
+	}
+
+	function auto() {
+		gt.click();
+	}
+	timer = setInterval(auto, 3000);
+
+	// 设置dot样式 
+	function tab(dots, index) {
+		for(var i = 0;i < dots.length;i++) {
+			dots[i].className = ""; 
+		}
+		dots[index % 5].className = "on"; 
+	}
+
+	// 设置暂停  
+	dot.onmouseover =  carousel.onmouseover = function() {
+		clearInterval(timer);
+	};
+	// 继续播放
+	dot.onmouseout = carousel.onmouseout = function() {
+		timer = setInterval(auto, 3000);
+	};
+
+	// 实现点击dot上的点也要播放
+	(function() {
+		for(var i = 0;i < dots.length;i++) {
+			dots[i].index = i;
+			dots[i].onclick = function() {
+				// 为了好的效果
+				if(index > oldLen - 1) {
+					index = this.index + oldLen;
+				} else {
+					index = this.index;
+				}
+				// 右移动
+				move(warper, "left", index * (-imgWidth));
+				// 设置dot样式
+				tab(dots, index);
+			}
+		}
+	})();
+
+	function move(obj, attr, target) {
+		if(obj.timer) {
+			clearInterval(obj.timer);
+		}
+
+		obj.timer = setInterval(function() {
+			var nowLeft = parseInt(getStyle(warper, attr));
+			var stop = true;
+
+			// 这里是移动速度的算法
+			var speed = (target-nowLeft) / 8;
+			speed = speed > 0 ? Math.ceil(speed) : Math.floor(speed);
+
+			if(nowLeft != target) {
+				stop = false;
+				obj.style[attr] = nowLeft + speed + "px";
+			}
+			if(stop) {
+				clearInterval(obj.timer);
+				obj.timer = null;
+			}
+		}, 30); 
+	} 
+
+	function getStyle(obj, attr) {
+		return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj)[attr];
+	}
+
+
+	// warper.insertBefore(aLi[aLi.length-1].cloneNode(true), aLi[0]); // 新节点、已有节点
+</script>
+</html>

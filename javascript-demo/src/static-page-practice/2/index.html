@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<style>
+		* {margin: 0;padding: 0;}
+
+		.warp {
+			width: 300px;
+			height: auto;
+			margin: 20px auto;
+		}
+
+		.warp h2 {
+			text-align: center;
+			color: red;
+		}
+
+		.container {
+			width: 300px;
+			height: 300px;
+			position: relative;
+		}
+
+		.container img {
+			width: 100%;
+			height: 100%;
+		}
+		/**
+		 * 第一个效果说明：
+		 * 其实就是将一个透明度为0的div
+		 * 设置transition(过渡)到透明度为1
+		 */
+
+		.container .fade {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: #008CBA;
+			opacity: 0;
+			cursor: pointer;
+		}
+
+		.container:hover .fade {
+			opacity: 1;
+			transition: opacity .6s;
+		}
+
+		.container .text {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50% ,-50%);
+			color: #fff;
+		}
+
+		/*
+		 * 第二个效果
+		 * 其实就是设置当container:hover时
+		 * 改变img的透明度以及middle的透明度
+		 *
+		 */
+		.container .img1 {
+			opacity: 1;
+			transition: ease .3s;
+		}	
+
+		.container .middle {
+			opacity: 0;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			transition: ease .3s;
+		}
+
+		.container:hover .img1 {
+			opacity: 0.3;
+		}
+
+		.container:hover .middle {
+			opacity: 1;
+		}
+
+		.container .middle .text1 {
+			color: #fff;
+			padding: 16px 32px;
+			background-color: #4CAF50;
+		}
+
+		/*
+		 * 从底部、顶部、左部、右部分别进入
+		 * 设置.bottom的高度为0
+		 * 当container:hover的时候就设置它的高度为100%。
+		 * ... 你懂得
+		 *
+		 */
+		.container .bottom, .container .top, 
+		.container .left, .container .right {
+			position: absolute;
+			background: #008CBA;
+			cursor: pointer;
+			overflow: hidden; /*防治字露出来*/
+			transition: all .5s;
+		}
+
+		.container .bottom .text1, .container .top .text1,
+	   	.container .right .text1, .container .left .text1 {
+			position: absolute;
+			overflow: hidden;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: #fff;
+		}
+
+		/**
+		 * 从底部出发
+		 */
+		.container .bottom {
+			left: 0;
+			bottom: 0;
+			width: 100%;
+			height: 0;
+		}
+
+		.container:hover .bottom {
+			height: 100%;
+		}
+
+		/**
+		 * 从顶部出发
+		 */
+		.container .top {
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 0;
+		}
+
+		.container:hover .top {
+			height: 100%;
+		}
+
+		/**
+		 * 从左部出发
+		 */
+		.container .left {
+			left: 0;
+			top: 0;
+			height: 100%;
+			width: 0;
+		}
+
+		.container:hover .left {
+			width: 100%;
+		}
+
+		/**
+		 * 从右部出发
+		 */
+		.container .right {
+			right: 0;
+			top: 0;
+			height: 100%;
+			width: 0;
+		}
+
+		.container:hover .right  {
+			width: 100%;
+		}
+
+	</style>
+</head>
+<body>
+
+	<section class="warp">
+		<h2>Fade in overlay</h2>
+		<div class="container">
+			<img src="avatar.jpg" alt="photo" title="avater">
+			<div class="fade">
+				<div class="text">Web开发者</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="warp">
+		<h2>Fade in box</h2>
+		<div class="container">
+			<img class="img1" src="avatar.jpg" alt="photo" title="avater">
+			<div class="middle">
+				<div class="text1">Web开发者</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="warp">
+		<h2>Slide in overlay from the bottom</h2>
+		<div class="container">
+			<img src="avatar.jpg" alt="photo" title="avater">
+			<div class="bottom">
+				<div class="text1">Web开发者</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="warp">
+		<h2>Slide in overlay from the top</h2>
+		<div class="container">
+			<img src="avatar.jpg" alt="photo" title="avater">
+			<div class="top">
+				<div class="text1">Web开发者</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="warp">
+		<h2>Slide in overlay from the left</h2>
+		<div class="container">
+			<img src="avatar.jpg" alt="photo" title="avater">
+			<div class="left">
+				<div class="text1">Web开发者</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="warp">
+		<h2>Slide in overlay from the right</h2>
+		<div class="container">
+			<img src="avatar.jpg" alt="photo" title="avater">
+			<div class="right">
+				<div class="text1">Web开发者</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

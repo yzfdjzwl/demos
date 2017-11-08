@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Todo List</title>
+	<link rel="stylesheet" href="./bootstrap.min.css">
+	<style>
+		.pd15 {
+			padding-left: 15px;
+			padding-right: 15px;
+		}
+		.mb30 {
+			margin-top: 30px;
+			margin-bottom: 30px;
+		}
+		.list-group-item:hover {
+			background: #eee;
+		}
+		.pull-right {
+			line-height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<div id="root">
+	<script type="text/babel">
+
+		/*
+		 * TodoList 组件
+		 */
+		class TodoList extends React.Component {
+			constructor() {
+				super();
+				this.state = {
+					todoList: ['todo', 'what', 'hhhhhh']
+				};
+				this.handleChange = this.handleChange.bind(this);
+			}
+
+			/*
+			 * 子组件调this.props.onTodoAdd， 
+			 * 然后调用此函数，进行更新
+			 */
+			handleChange(rows) {
+				this.setState({
+					todoList: rows
+				});
+			}
+
+			render() {
+				return (
+					<div className="container">
+						<TypeNew onTodoAdd={this.handleChange} todo={this.state.todoList} />
+						<ListToDo onTodoDel={this.handleChange} todo={this.state.todoList} />
+					</div>
+				);
+			}
+		}
+
+		/*
+		输入框组件 
+		使用受控组件(用state和value)
+		*/
+		class TypeNew extends React.Component {
+			constructor(props) {
+				super(props);
+				this.handleAdd = this.handleAdd.bind(this);
+				this.state = {
+					value: ''
+				};
+				this.handleChange = this.handleChange.bind(this);
+			}
+
+			handleAdd(event) {
+				event.preventDefault();
+				let rows = this.props.todo;
+				if(this.state.value.trim() !== '') {
+
+					rows.push(this.state.value);
+					this.setState({
+						value: ''
+					});
+
+					/*调用接口*/
+					this.props.onTodoAdd(rows);
+				}
+			}
+
+			handleChange(event) {
+				this.setState({
+					value: event.target.value
+				});
+			}
+
+			render() {
+				return (
+					<div className="col-md-8 col-md-offset-2 mb30">
+						<form onSubmit={this.handleAdd}>
+							<input 
+								className="form-control col-md-12"
+								value={this.state.value}
+								onChange={this.handleChange}
+								type="text"
+								placeholder="Typing a new thing todo"
+								refs="inputAdd" />
+						</form>
+					</div>
+				);
+			}
+		}
+
+		/*
+		ToDo列表组件
+		删除获取index
+		*/
+		class ListToDo extends React.Component {
+			constructor(props) {
+				super(props);
+				this.handleDel = this.handleDel.bind(this);
+			}
+
+			handleDel(event) {
+				const delIndex = event.target.getAttribute('data-key');
+				this.props.todo.splice(delIndex, 1);
+				this.props.onTodoDel(this.props.todo);
+			}
+
+			render() {
+				const items = this.props.todo;
+				const listItems = items.map((item, index) => (
+					<li className="list-group-item" key={index}>
+						<label>{item}</label>
+						<button className="btn btn-success pull-right" onClick={this.handleDel} data-key={index}>DELETE</button>
+					</li>
+				));
+
+				return (
+					<ul id="todo-list" className="col-md-8 col-md-offset-2 list-group pd15">{listItems}</ul>
+				);
+			}
+		}
+
+		ReactDOM.render(
+			<TodoList />,
+			document.getElementById('root')
+		);
+	</script>
+	<script src="https://cdn.bootcss.com/react/15.4.2/react.min.js"></script>
+	<script src="https://cdn.bootcss.com/react/15.4.2/react-dom.min.js"></script>
+	<script src="https://cdn.bootcss.com/babel-standalone/6.22.1/babel.min.js"></script>
+</body>
+</html>

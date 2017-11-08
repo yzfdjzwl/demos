@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>粒子特效</title>
+	<style type="text/css">
+		html, body {
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			overflow: hidden;
+			background: black;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="cas"></canvas>
+
+	<script type="text/javascript">
+		var canvas = document.getElementById("cas");		
+		var ctx = canvas.getContext("2d");
+
+		// 初始化canvas的高度和宽度
+		function resize() {
+			// 窗口的文档显示区宽度、
+			canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+			canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+		}
+		resize();
+		window.onresize = resize;
+
+
+		// 浏览器为动画提供的API,类似于setInterval，但是效果更佳
+		var w = window;
+		requestanimationframe = w.requestanimationframe || w.webkitrequestanimationframe || w.msrequestanimationframe || w.mozrequestanimationframe || function(callback) {
+				window.setTimeout(callback, 1000 / 60);
+			};
+		
+
+
+		// 定义鼠标活动时的鼠标坐标，同粒子坐标
+		var mouseDot = {
+			x: null,
+			y: null,
+			max: 20000 // 最大连线距离
+		}
+
+
+		// 定义鼠标事件
+		window.onmousemove = function(e) {
+			e = e || window.event;
+			mouseDot.x = e.clientX;
+			mouseDot.y = e.clientY;
+		}
+
+		window.onmouseout = function(e) {
+			e = e || window.event;
+			mouseDot.x = null;
+			mouseDot.y = null;
+		}
+
+
+		// 随机生成粒子
+		var dots = [];
+		for(var i = 0; i < 200; i++) {
+			// 生成坐标	
+			var x = Math.random() * canvas.width;
+			var y = Math.random() * canvas.height;
+
+			// 设置加速度
+			var xa = (Math.random() * 2 - 1) / 2;
+			var ya = (Math.random() * 2 - 1) / 2;
+
+			// 添加粒子
+			dots.push({
+				x: x,
+				y: y,
+				xa: xa,
+				ya: ya,
+				max: 10000
+			});
+		}
+
+
+		// 延迟100秒开始执行动画
+		window.setTimeout(function() {
+			animate();
+		}, 100);
+
+
+		// 每一帧的动画逻辑
+		function animate() {
+			// 每一帧开始时必须要清空
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+			// ndots的内容是鼠标的那个点和随机生成的粒子
+			var ndots = [mouseDot].concat(dots);
+
+			// 数组迭代, dot是当前粒子对象, 开始绘制每个粒子
+			dots.forEach(function(dot) {
+				// 粒子位移
+				dot.x += dot.xa;
+				dot.y += dot.ya;
+
+				// 遇到边界反向加速
+				dot.xa *= (dot.x > canvas.width || dot.x < 0) ? -1 : 1;
+				dot.ya *= (dot.y > canvas.height || dot.y < 0) ? -1 : 1;
+
+				// 绘制点
+				ctx.fillRect(dot.x - 0.5, dot.y - 0.5, 1, 1);
+
+				// 循环对比粒子间的距离
+				for(var i = 0; i < ndots.length; i++) {
+					// 比对到的粒子对象
+					var d2 = ndots[i];
+
+					// 如果是比对粒子 是 当前粒子
+					if(dot == d2 || d2.x == null || d2.y == null) {
+						continue;
+					}
+
+					// 计算粒子间的距离
+					var xc = dot.x - d2.x;
+					var yc = dot.y - d2.y;
+					var dis = xc * xc + yc * yc; // 这里没有计算平方，因为前面设置的max是20000，足够大了
+
+					// 计算距离比
+					var radio;
+
+					// 如果两个粒子之间的距离小于粒子对象间的max值，则在粒子间画线
+					if(dis < d2.max) {
+						// 计算距离比
+						radio = (d2.max - dis) / d2.max;
+						// 画线
+						ctx.beginPath();
+						// 设置线的宽度
+						ctx.lineWidth = radio; 
+						// 设置笔触
+						ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+						ctx.moveTo(dot.x, dot.y);
+						ctx.lineTo(d2.x, d2.y);
+						ctx.stroke();
+					}
+				}
+
+				// 将已经计算过的粒子从数组中删除
+      			ndots.splice(ndots.indexOf(dot), 1);
+			});
+			requestAnimationFrame(animate);
+		}
+	</script>
+</body>
+</html>

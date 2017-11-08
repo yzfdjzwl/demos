@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片懒加载</title>
+	<style>
+
+		#lazy {
+			overflow: hidden;
+		}
+		img {
+			width: 200px;
+			height: 200px;
+		}
+		li {
+			list-style: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="lazy">
+		<ul>
+			<li><img data-src="images/1.JPG" src="images/loading.gif" alt=""></li>
+			<li><img data-src="images/2.JPG" src="images/loading.gif" alt=""></li>
+			<li><img data-src="images/3.JPG" src="images/loading.gif" alt=""></li>
+			<li><img data-src="images/4.JPG" src="images/loading.gif" alt=""></li>
+			<li><img data-src="images/5.JPG" src="images/loading.gif" alt=""></li>
+			<li><img data-src="images/6.JPG" src="images/loading.gif" alt=""></li>
+			<li><img data-src="images/7.JPG" src="images/loading.gif" alt=""></li>
+			<li><img data-src="images/8.JPG" src="images/loading.gif" alt=""></li>
+			<li><img data-src="images/9.JPG" src="images/loading.gif" alt=""></li>
+			<li><img data-src="images/10.JPG" src="images/loading.gif" alt=""></li>
+		</ul>
+	</div>
+
+	<script>
+
+		window.onload = function() {
+			window.onscroll();
+		};		
+
+		window.onscroll = function() {
+			var lazy = document.getElementById('lazy');
+			var oUl = lazy.children[0];
+			var aLi = oUl.children;
+
+			for(var i = 0;i < aLi.length;i++) {
+
+				var oLi = aLi[i];
+				
+				// 检查oLi是否在可视区域	
+				// 客户区大小(width + padding + border, no 滚动条) + 
+				// scroll为被隐藏在内容区域上方的像素数
+				var t = document.documentElement.clientHeight + (document.documentElement.scrollTop || document.body.scrollTop);
+				
+				// 当前元素到浏览器顶部的距离
+				var actualTop = getElementTop(oLi);
+				console.log('actualTop:' + actualTop);
+
+				// 意思就是： 当你滚动到一个区域后，将当前区域上面的img的src都设置了
+				// 反过来就是: 如果你真实的区域小于目前总滚动的话，就不会设置img。
+				if(actualTop < t) {
+					setTimeout("setImg(" + i + ")", 500);
+				}
+			}
+		};
+
+		// 获得视口的客户区的高度和宽度
+		// 以及被隐藏在内容区域上方的像素数
+		function getViewport() {
+			if (document.compatMode == "BackCompat") {
+				return {
+					width: document.body.clientWidth,
+					height: document.body.clientHeight,
+					scrollTop: document.body.scrollTop
+				}
+			} else {
+				return {
+					width: document.documentElement.clientWidth,
+					height: document.documentElement.clientHeight,
+					scrollTop: document.documentElement.scrollTop
+				}
+			}
+		}
+
+		function getElementTop(element) {
+			var actualTop = element.offsetTop;
+			var current = element.offsetParent;
+
+			while(current != null) {
+				actualTop += current.offsetTop;
+				current = current.offsetParent;
+			}
+
+			return actualTop;
+		}
+
+		function setImg(index) {
+			var oDiv = document.getElementById('lazy');
+			var oUl = oDiv.children[0];
+			var aImg = oUl.getElementsByTagName('img');
+			var src;
+
+			if(aImg[index].dataset) {
+				src = aImg[index].dataset.src;
+				aImg[index].src = src;
+			} else {
+				src = aImg[index].getAttribute('data-src');
+				aImg[index].src = src;
+			}
+		}
+
+	</script>
+</body>
+</html>

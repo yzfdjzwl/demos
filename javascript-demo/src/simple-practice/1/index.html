@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>动态表格</title>
+	<style>
+		.evennn {
+			background: #eee;
+		}
+		html {
+			height: 100%;
+		}
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		.outer {
+			margin: 30px auto;
+			width: 60%;
+			height: 40px;
+			border: 1px solid #D3D3D3;
+		}
+
+		input[type="button"] {
+			border: none;
+			font-size: 20px;
+			color: red;
+			height: 40px;
+			line-height: 40px;
+			padding: 0 50px;
+		}
+		input[type="text"] {
+			border: none;
+			width: 50%;
+			height: 35px;
+			line-height: 35px;
+			font-size: 20px;
+			color: gray;
+			outline: none;
+		}
+		input[type="text"]:focus {
+			outline: none;
+		}
+
+		table {
+			border: 1px solid #D3D3D3;
+			border-collapse: collapse;
+			width: 100%;
+		}
+		td, th {
+			border: 1px solid #D3D3D3;
+			height: 30px;
+			line-height: 30px;
+		}
+		th {
+			background: #333;
+			color: #fff;
+		}
+		table tr td {
+			text-align: center;
+		}
+
+
+		td input[type="text"] {
+			width: 100%;
+			text-align: center;
+			height: 30px;
+			line-height:30px;
+			font-size:16px;
+			color: black;
+		}
+		.add {
+			display: block;
+			border: none;
+			font-size: 20px;
+			color: red;
+			height: 40px;
+			line-height: 40px;
+			padding: 0 50px;
+			margin: 20px auto;
+			cursor: pointer;
+		}
+
+		.mask {
+			position: absolute;
+			left: 0;
+			top: 0;
+			background: #000;
+			opacity: .5;
+			z-index: 1;
+		}
+
+		.stu {
+			width: 400px;
+			border: 1px solid #D3D3D3;
+			padding: 20px;
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			z-index: 10;
+			display: none;
+			transition: all .5s; 
+			background: #fff;
+		}
+
+		/*顶上的字*/
+		.stu .top {
+			color: red;
+			text-align: center;
+			margin: 10px 0;
+			display: none;
+		}
+
+		.stu input {
+			border: 1px solid #D3D3D3;
+			width: 300px;
+		}
+		
+		.stu div {
+			margin-bottom: 10px;
+		}
+
+		.stu .sure {
+			float: left;
+			width: 100px;
+			padding: 0;
+			text-align: center;
+			margin-left: 80px;
+			cursor: pointer;
+		}
+
+		.stu .cancel {
+			float: right;
+			width: 100px;
+			padding: 0;
+			margin-right: 80px;
+			text-align: center;
+			cursor: pointer;
+		}
+
+		.stu::after {
+			content: " ";
+			display: block;
+			clear: both;
+		}
+
+		#remove-btn {
+			cursor: pointer;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="outer">
+		<input type="button" value="搜索">
+		<input type="text" id="search">
+	</div>
+	<div id="show-error" style="border:1px solid #eee;height: 40px;width: 30%;margin: 50px auto 10px;line-height: 40px;font-size: 20px;text-align: center;color: red;display: none;"></div>
+	<table>
+		<thead>
+			<tr>
+				<th scope="col" style="width: 16%;">
+					<input id="allCheck" type="checkbox" name="username"><span>全选</span>
+				</th>
+				<th scope="col" style="width: 16%;">姓名</th>
+				<th scope="col" style="width: 9%;">语文</th>
+				<th scope="col" style="width: 9%;">数学</th>
+				<th scope="col" style="width: 9%;">英语</th>
+				<th scope="col" style="width: 16%;">总成绩</th>
+				<th scope="col" style="width: 25%">操作</th>
+			</tr>
+		</thead>
+
+		<tbody>
+		<!--
+			<tr>
+				<td>
+					<input type="checkbox" name="username">				
+				</td>
+				<td>
+					<input type="text" value="余正峰" readOnly="true" name="stuname">
+				</td>
+				<td>
+					<input type="text" value="99" readOnly="true" name="chinese">
+				</td>
+				<td>
+					<input type="text" value="99" readOnly="true" name="math">
+				</td>
+				<td>
+					<input type="text" value="99" readOnly="true" name="english">
+				</td>
+				<td>
+					<input type="text" value="297" readOnly="true" name="sumGrade">
+				</td>
+				<td>
+					<a href="javascript:;" data-set="alter">修改</a>
+					<a href="javascript:;" data-set="delete">删除</a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="checkbox" name="username">				
+				</td>
+				<td>
+					<input type="text" value="黄婉玥" readOnly="true" name="stuname">
+				</td>
+				<td>
+					<input type="text" value="98" readOnly="true" name="chinese">
+				</td>
+				<td>
+					<input type="text" value="98" readOnly="true" name="math">
+				</td>
+				<td>
+					<input type="text" value="98" readOnly="true" name="english">
+				</td>
+				<td>
+					<input type="text" value="294" readOnly="true" name="sumGrade">
+				</td>
+				<td>
+					<a href="javascript:;" data-set="alter">修改</a>
+					<a href="javascript:;" data-set="delete">删除</a>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="checkbox" name="username">				
+				</td>
+				<td>
+					<input type="text" value="黄一二" readOnly="true" name="stuname">
+				</td>
+				<td>
+					<input type="text" value="98" readOnly="true" name="chinese">
+				</td>
+				<td>
+					<input type="text" value="98" readOnly="true" name="math">
+				</td>
+				<td>
+					<input type="text" value="98" readOnly="true" name="english">
+				</td>
+				<td>
+					<input type="text" value="294" readOnly="true" name="sumGrade">
+				</td>
+				<td>
+					<a href="javascript:;" data-set="alter">修改</a>
+					<a href="javascript:;" data-set="delete">删除</a>
+				</td>
+			</tr>
+		-->
+
+
+		</tbody>
+	</table>
+	<input id="add" class="add" type="button" value="增加学生成绩">
+	<input id="remove-btn" type="button" value="删除">
+
+	<div class="stu" id="stu">
+		<div class="top" id="top">
+			<!--未输入正确-->
+		</div>
+		<div>
+			<label for="name">姓名</label>
+			<input id="name" type="text">
+		</div>
+
+		<div>
+			<label for="chinese">语文</label>
+			<input id="chinese" type="text" name="chinese">
+		</div>
+
+		<div>
+			<label for="math">数学</label>
+			<input id="math" type="text" name="math">
+		</div>
+
+		<div>
+			<label for="english">英语</label>
+			<input id="english" type="text" name="english">
+		</div>
+		<input class="sure" id="sure" type="button" value="确定">
+		<input class="cancel" id="cancel" type="button" value="取消">
+	</div>
+
+	<script src="util.js" type="text/javascript"></script>
+	<script type="text/javascript">
+
+		function Student(stuname, chinese, math, english, sumGrade) {
+			this.stuname = stuname;
+			this.chinese = chinese;
+			this.math = math;
+			this.english = english;
+			this.sumGrade = sumGrade;
+		}
+
+		/**
+		 * 点击添加学生
+		 * 弹出遮罩层
+		 * 显示增加学生成绩的框
+		 *
+		 */
+		function popUp () {
+			// 第一步，获取整个页面的高度，然后为它添加一个层
+			var pop = document.createElement('div');
+			var stuDiv = document.getElementById('stu');
+			var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+			var clientWidth = document.documentElement.offsetWidth || document.body.offsetWidth;
+
+			pop.style.width = clientWidth + 'px';
+			pop.style.height = scrollHeight + 'px';
+			pop.className = 'mask';
+
+			stuDiv.style.display = 'block';
+			document.body.appendChild(pop);
+		}
+
+		/**
+		 * 验证合法并插入
+		 *
+		 */
+		function popDown() {
+			if(this.id == 'sure') {
+
+				// 如果返回的是字符串
+				// 那么相当于是返回false
+				// 如果返回的是true则通过
+
+				var result = validate('add');
+				if(typeof result == 'string') {
+
+					// 数据渲染
+					var top = document.getElementById('top');
+					top.style.display = 'block';
+					errorRender(top, result);
+				} else if(result == true) {
+					destory();
+					appendTable(1);
+					clearInput();
+				}
+			} else if(this.id == 'cancel') {
+				clearInput();
+				destory();
+			}
+		}
+
+
+		/**
+		 * 增加行
+		 *
+		 * input1 姓名
+		 * input2 语文
+		 * input3 数学
+		 * input4 英语
+		 * 同时写入浏览器数据库
+		 *
+		 * 传入的参数表明情况，值为1或2, 以及student对象
+		 * 1表示是新创建，2表示从localStorage中读取。
+		 * 
+		 */
+		function appendTable(condition, student) {
+
+			var tbody = document.getElementsByTagName('tbody')[0];
+			var aDeleteTag = document.createElement('a');
+			var aAlterTag = document.createElement('a');
+			var checkbox = document.createElement('input');
+			var fragment = document.createDocumentFragment();
+
+			var input1 = document.createElement('input'); // username
+			var input2 = document.createElement('input'); // chinese
+			var input3 = document.createElement('input'); // math
+			var input4 = document.createElement('input'); // english
+			var input5 = document.createElement('input'); // sumGrade
+			
+			input1.type = 'text';
+			input2.type = 'text';
+			input3.type = 'text';
+			input4.type = 'text';
+			input5.type = 'text';
+
+			input1.readOnly = 'true';
+			input2.readOnly = 'true';
+			input3.readOnly = 'true';
+			input4.readOnly = 'true';
+			input5.readOnly = 'true';
+
+			input1.name = 'stuname';
+			input2.name = 'chinese';
+			input3.name = 'math';
+			input4.name = 'english';
+			input5.name = 'sumGrade';
+
+			fragment.appendChild(aAlterTag);
+			fragment.appendChild(aDeleteTag);
+
+
+			checkbox.type = 'checkbox';
+			checkbox.name = 'username';
+			aAlterTag.href = 'javascript:;';
+			aDeleteTag.href = 'javascript:;';
+			aAlterTag.innerHTML = '修改 ';
+			aDeleteTag.innerHTML = '删除';
+			aAlterTag.setAttribute('data-set', 'alter');
+			aDeleteTag.setAttribute('data-set', 'delete');
+
+			// 插入并返回行
+			var row = tbody.insertRow();
+
+			if(condition == 1) {
+
+				input1.value = document.getElementById('name').value;
+				input2.value  = document.getElementById('chinese').value;
+				input3.value = document.getElementById('math').value;
+				input4.value  = document.getElementById('english').value;
+				input5.value = parseInt(input2.value) 
+					+ parseInt(input3.value) + parseInt(input3.value);
+
+			} else if(condition == 2) {
+
+				// 传入的还有student对象
+				input1.value = student.stuname;
+				input2.value = student.chinese;
+				input3.value = student.math;
+				input4.value = student.english;
+				input5.value = student.sumGrade;
+			}
+
+
+			row.insertCell(0).appendChild(checkbox);
+			row.insertCell(1).appendChild(input1);
+			row.insertCell(2).appendChild(input2);
+			row.insertCell(3).appendChild(input3);
+			row.insertCell(4).appendChild(input4);
+			row.insertCell(5).appendChild(input5);			
+			row.insertCell(6).appendChild(fragment);
+
+			/*写入浏览器数据库*/
+			if(condition == 1) {
+				var student = new Student(input1.value, input2.value, input3.value, input4.value, input5.value);
+				insertStorage(student); // 传入的是一个student对象
+			}
+
+			// 隔行变色
+			for(var i = 0;i < tbody.rows.length;i++) {
+				if(i % 2 == 0) {
+					tbody.rows[i].className = 'evennn';
+					for(var j = 0;j < tbody.rows[i].cells.length;j++) {
+						for(var k = 0;k < tbody.rows[i].cells[j].childNodes.length;k++) {
+							tbody.rows[i].cells[j].childNodes[k].className = 'evennn';
+						}
+					}
+				}
+			}
+		}
+		
+	
+		/**
+		 * 隐藏stu框 
+		 * 移除mask
+		 */
+		function destory() {
+			document.getElementById('stu').style.display = 'none';
+			document.body.removeChild(document.body.lastChild);
+		}
+
+
+		/**
+		 * 清空输入框
+		 *
+		 */
+		function clearInput() {
+			document.getElementById('name').value = '';	
+			document.getElementById('chinese').value = '';	
+			document.getElementById('math').value = '';	
+			document.getElementById('english').value = '';	
+		}
+
+		/**
+		 * 验证是否输入正确
+		 * 如果condition
+		 * 传入的是行，以0开始，第一行数据为1
+		 *
+		 */
+		function validate(condition) {
+
+			var name;
+			var chinese;
+			var math;
+			var english;
+			var chineseNum;
+			var mathNum;
+			var englishNum;
+
+			if(condition == 'add') {
+
+				name = document.getElementById('name').value;
+				chinese = document.getElementById('chinese').value;
+				math = document.getElementById('math').value;
+				english = document.getElementById('english').value;
+
+				if(!valChinese(name)) {
+					return '姓名请输入中文';
+				}
+			} else if(typeof condition == 'number'){
+
+				chineseNum = document.getElementsByName('chinese');
+				mathNum = document.getElementsByName('math');
+				englishNum = document.getElementsByName('english');
+
+				chinese = chineseNum[condition - 1].value;
+				math = mathNum[condition - 1].value;
+				english = englishNum[condition - 1].value;
+			}
+
+			if(!(validateNum(chinese) && validateRange(0, 100, chinese))) {
+				return '语文成绩必须在0～100之内';
+			}
+			if(!(validateNum(math) && validateRange(0, 100, math))) {
+				return '数学成绩必须在0～100之内';
+			}
+			if(!(validateNum(english) && validateRange(0, 100, english))) {
+				return '英语成绩必须在0～100之内';
+			}
+
+			// 全部验证通过
+			return true;
+		}
+
+		/**
+		 * 出错渲染
+		 *
+		 *
+		 */
+		function errorRender(target, str) {
+			target.innerHTML = str;
+		}
+
+		/**
+		 * 修改内容
+		 * 参数是当前被点击的a链接
+		 */
+		function alterTr(target) {
+			var readOnlyArr = ['chinese', 'math', 'english'];
+
+			// td
+			var parent = target.parentNode;
+
+			// tr
+			var grandPa = parent.parentNode;
+
+			var trIdx =  grandPa.rowIndex;
+
+			// childs(tds)
+			var childs = grandPa.childNodes;	
+
+			// 最外层，过滤出td
+			for(var i = 0;i < childs.length;i++) {
+
+				// 如果是td 
+				if(childs[i].nodeType == 1) {
+
+					// 内层，过滤出inuput
+					for(var j = 0;j < childs[i].childNodes.length;j++) {
+
+						// get input
+						var now = childs[i].childNodes[j];
+						if(now.nodeType == 1) {
+
+							// 修改readOnly为false
+							if(contains(readOnlyArr, now.name)) {
+								now.readOnly = false;
+
+								// DOM 改变
+								// 将修改和删除改为保存与取消
+								for(var k = 0;k < parent.childNodes.length;k++) {
+									if(parent.childNodes[k].nodeType == 1) {
+										parent.childNodes[k].style.display = 'none';
+									}
+								}
+								
+							}
+						}
+					} // 内层，过滤出input
+				}
+			}
+
+			// 循环结束后创建
+			var keep = document.createElement('a');
+			var cancel = document.createElement('a');
+			keep.innerHTML = '保存 ';
+			cancel.innerHTML = '取消';
+			keep.href = 'javascript:;';
+			cancel.href = 'javascript:;';
+			keep.name = 'keep';
+			cancel.name = 'cancel';
+			parent.appendChild(keep);
+			parent.appendChild(cancel);
+
+			keep.addEventListener('click', function() {
+				keepData(trIdx);
+			});
+
+			// 获取现在的成绩，并传入cancel，为了还原
+			var chinese = document.getElementsByName('chinese')[trIdx - 1].value;
+			var math = document.getElementsByName('math')[trIdx - 1].value;
+			var english = document.getElementsByName('english')[trIdx - 1].value;
+			var gradeArr = [chinese, math, english];
+
+			cancel.addEventListener('click', (function(trIdx, gradeArr) {
+
+					return function() {
+						cancelData(trIdx, gradeArr);
+					};
+			})(trIdx, gradeArr));
+
+		} 
+
+		function keepData(trIdx) {
+
+			// 第一步，进行数据验证
+			var showError = document.getElementById('show-error');
+			showError.style.display = 'block';
+			var result = validate(trIdx);
+			var showError = document.getElementById('show-error');
+
+			var stuname = document.getElementsByName('stuname')[trIdx -1].value;
+			var chinese = document.getElementsByName('chinese')[trIdx - 1].value;
+			var math = document.getElementsByName('math')[trIdx - 1].value;
+			var english = document.getElementsByName('english')[trIdx - 1].value;
+			var sumGrade = document.getElementsByName('sumGrade')[trIdx - 1].value;
+
+			var student = new Student();
+			student.chinese = chinese;
+			student.math = math;
+			student.english = english;
+			student.sumGrade = sumGrade;
+			var copyStu = JSON.stringify(student);
+			
+			if(typeof result == 'string') {
+
+				errorRender(showError, result);
+			} else if(result == true) {
+		
+				// 如果通过则更新数据, 重新计算总成绩
+				gradeRender(trIdx);
+
+				// 写入到localStorage
+				localStorage.setItem(stuname, copyStu);
+			}	
+		}
+
+		/**
+		 * 1. 总成绩重新渲染
+		 * 2. 开启readOnly
+		 * 3. 移除a标签
+		 * 4. 隐藏error
+		 * 
+		 */
+		function gradeRender(trIdx) {
+			var chineseNum = document.getElementsByName('chinese');
+			var mathNum = document.getElementsByName('math');
+			var englishNum = document.getElementsByName('english');
+			var sumGradeNum = document.getElementsByName('sumGrade');
+
+			var chinese = chineseNum[trIdx - 1].value;
+			var math = mathNum[trIdx - 1].value;
+			var english = englishNum[trIdx - 1].value;
+			
+			// 重新总成绩
+			sumGradeNum[trIdx - 1].value = parseInt(chinese) + parseInt(math) + parseInt(english);
+
+			// 开启readOnly
+			chineseNum[trIdx - 1].readOnly = true;
+			mathNum[trIdx - 1].readOnly = true;
+			englishNum[trIdx - 1].readOnly = true;
+			sumGradeNum[trIdx - 1].readOnly = true;
+			
+			// 移除DOM a链接
+			removeKeepAndCancel(trIdx);	
+
+			// 隐藏error
+			var showError = document.getElementById('show-error');
+			showError.style.display = 'none';
+		}
+
+		function cancelData(trIdx, gradeArr) {
+			// 还原数据
+			document.getElementsByName('chinese')[trIdx - 1].value = gradeArr[0];
+			document.getElementsByName('math')[trIdx - 1].value = gradeArr[1];
+			document.getElementsByName('english')[trIdx - 1].value = gradeArr[2];
+
+			// 关闭readOnly
+			document.getElementsByName('chinese')[trIdx - 1].readOnly = true;
+			document.getElementsByName('math')[trIdx - 1].readOnly = true;
+			document.getElementsByName('english')[trIdx - 1].readOnly = true;
+			document.getElementsByName('sumGrade')[trIdx - 1].readOnly = true;
+				
+			// 隐藏error
+			var showError = document.getElementById('show-error');
+			showError.style.display = 'none';
+
+			// dom
+			removeKeepAndCancel(trIdx);
+		}
+
+		/**
+		 * 1. 删除保存和取消按钮
+		 * 2. 显示修改与删除按钮
+		 *
+		 */
+		function removeKeepAndCancel(trIdx) {
+			var curTr = document.getElementsByTagName('tbody')[0].rows[trIdx - 1];
+			var curCell = curTr.cells[curTr.cells.length - 1];
+			var cellChilds = curCell.childNodes;
+			var len = cellChilds.length;
+
+			// 这里一定不要用cellChild.length， 因为是动态的
+			// 而且这里一定要倒着删，因为删了一个后，长度也会变
+			for(var i = len - 1;i >= 0;i--) {
+
+				if(cellChilds[i].nodeType == 1) {
+
+					// 删除保存和取消按钮
+					if(cellChilds[i].name == 'cancel' || cellChilds[i].name == 'keep') {
+
+						cellChilds[i].parentNode.removeChild(cellChilds[i]);
+
+					// 显示修改和删除按钮
+					} else if(cellChilds[i].getAttribute('data-set')) {
+
+						cellChilds[i].style.display = 'inline';
+					}
+				}
+			
+			}
+		}
+
+		/**
+		 * 得到选中的行
+		 * 返回一个数组
+		 * 数组里的值是被选中的行的index
+		 *
+		 */
+		function getDeleteArr() {
+			var arr = [];
+			var checkboxs = document.getElementsByName('username');
+
+			for(var i = 1;i < checkboxs.length;i++) {
+				if(checkboxs[i].checked) {
+					arr.push(i);
+				}
+			}
+			return arr;
+		}
+
+		/**
+		 *
+		 * 删除选定行
+		 * 参数是当前被点击的a链接或者行的index
+		 * 同时删除localStorage里的数据
+		 *
+		 *
+		 */
+		function deleteTr(target) {
+			
+			var table = document.getElementsByTagName('table')[0];
+
+			// 先删除localStorage中的数据
+			removeStorage(target);
+
+			// 后删除表格数据
+			if(Array.isArray(target)) {
+
+				// 删除
+				for(var i = target.length - 1;i >= 0;i--) {
+					table.deleteRow(target[i]);
+				}
+
+				hideRemoveBtn();
+			}  else if (typeof target == 'object') {
+
+				// 获取父元素
+				var parent = target.parentNode;
+
+				// 获取父元素的父元素
+				var grandPa = parent.parentNode;
+				grandPa.parentNode.removeChild(grandPa);
+			} 
+
+		}
+
+
+		/**
+		 * 实现全选功能
+		 *
+		 */
+		function checkAll() {
+			var checkboxs = document.getElementsByName('username');
+
+			for(var i = 1;i < checkboxs.length;i++) {
+				if(checkboxs[0].checked) {
+					checkboxs[i].checked = true;
+
+					// 显示删除按钮
+					showRemoveBtn();
+				} else {
+					checkboxs[i].checked = false;
+
+					// 隐藏删除按钮
+					hideRemoveBtn();
+				}
+			}
+		} 
+
+		/**
+		 * 显示删除按钮
+		 *
+		 */
+		function showRemoveBtn() {
+			var removeBtn = document.getElementById('remove-btn');
+			removeBtn.style.display = 'block';
+		}
+
+		/**
+		 * 隐藏删除按钮
+		 *
+		 */
+		function hideRemoveBtn() {
+			var removeBtn = document.getElementById('remove-btn');
+			removeBtn.style.display = 'none';
+		}
+
+		/**
+		 * 查询名字
+		 *
+		 * 用inputStr去匹配stuname数组里的string
+		 * 如果有，那么就显示
+		 * 如果没有，就显示所有
+		 *
+		 */
+		function searchName() {
+			// 获取所有名字
+			var stuname = document.getElementsByName('stuname');
+			var trIdxArr = [];
+			var inputStr = document.getElementById('search').value;
+		
+			// 去掉空格
+			if(inputStr.trim() != 0) {
+				for(var i = 0;i < stuname.length;i++) {
+
+					if(stuname[i].value.indexOf(inputStr.trim()) != -1) {
+						trIdxArr.push(i);
+					}
+				}
+			}
+
+			// 控制table显示
+			showTable(trIdxArr);
+		}
+
+		/**
+		 * 控制table显示的数据
+		 *
+		 * 如果传入的数组为空, 则显示所有
+		 * 如果传入的数组不为空，则显示数组里的序号
+		 */
+		function showTable(trIdxArr) {
+
+			var tbody = document.getElementsByTagName('tbody')[0];
+			if(Array.isArray(trIdxArr)) {
+
+				// 显示所有的数据
+				if(trIdxArr.length == 0) {
+					for(var i = 0;i < tbody.rows.length;i++) {
+						tbody.rows[i].style.display = 'table-row';
+					}
+
+				} else {
+
+					// 先隐藏所有
+					for(var i = 0;i < tbody.rows.length;i++) {
+						tbody.rows[i].style.display = 'none';
+					}
+
+					// 再将找到的数据显示
+					for(var i = 0;i < trIdxArr.length;i++) {
+						tbody.rows[trIdxArr[i]].style.display = 'table-row';
+					}
+				}
+			}
+		}
+
+		/**
+		 * 写入localstorage
+		 * 传入的是student对象
+		 *
+		 */
+		function insertStorage(student) {
+			// 单独提取姓名
+			var stuname =  student.stuname;
+
+			// 删除属性
+			delete student.stuname;
+
+			// 转为json对象(字符串类型)
+			var copyStu = JSON.stringify(student);
+
+			// 插入数据
+			localStorage.setItem(stuname, copyStu);
+		}
+
+		/**
+		 * 页面加载后从localStorage中取数据
+		 *
+		 * 
+		 */
+		function getStorage() {
+
+			var student = null; // 对象
+			var copyStu; // json字符串
+
+			var stuname; // name
+			var chinese;
+			var math;
+			var english;
+			var sumGrade;
+
+			for(var i = 0;i < localStorage.length;i++) {
+				stuname = localStorage.key(i);
+				copyStu = localStorage.getItem(stuname);
+
+				if(valChinese(stuname)) {
+
+					// 先合成student对象
+					copyStu = JSON.parse(copyStu);
+					chinese = parseInt(copyStu.chinese);
+					math = parseInt(copyStu.math);
+					english = parseInt(copyStu.english);
+					sumGrade = parseInt(copyStu.sumGrade);
+					student = new Student(stuname, chinese, math, english, sumGrade);
+					appendTable(2, student);
+				}
+			}
+		}
+
+		/**
+		 *
+		 * 删除数据调用删除localStorage中的数据
+		 * 传入的是target，要么是object表示一行
+		 * 要么传入的是数组
+		 * 注意 childNodes
+		 * 注意 children
+		 * 
+		 */
+		function removeStorage(target) {
+
+			var nameStr = [];
+			var table = document.getElementsByTagName('table')[0];
+			var childs;
+
+			if(Array.isArray(target)) {
+
+				// 找到名字，然后放入数组，然后遍历删除
+				for(var i = 0;i < target.length;i++) {
+
+					var tdChilds = table.rows[target[i]].cells[1].children;
+					for(var j = 0;j < tdChilds.length;j++) {
+
+						if(tdChilds[j].nodeType == 1 && tdChilds[j].name == 'stuname') {
+							nameStr.push(tdChilds[j].value);
+						}
+					}
+				}
+			} else if(typeof target == 'object') {
+				childs = target.parentNode.parentNode.cells[1].childNodes;
+
+				for(var i = 0;i < childs.length;i++) {
+					if(childs[i].nodeType == 1 && childs[i].name == 'stuname') {
+						nameStr.push(childs[i].value);
+					}
+				}
+				
+			}
+
+			// 开始遍历
+			for(var i = 0;i < nameStr.length;i++) {
+				localStorage.removeItem(nameStr[i]);
+			}
+		}
+
+
+		/**
+		 * 初始化
+		 * 添加事件
+		 */
+		function init() {
+			// 取数据
+			getStorage();
+
+			var addBtn = document.getElementById('add');
+			var sureBtn = document.getElementById('sure');
+			var cancelBtn = document.getElementById('cancel');
+			var allCheck = document.getElementById('allCheck');
+
+			var table = document.getElementsByTagName('table')[0];
+			var tbody = document.getElementsByTagName('tbody')[0];
+			var aTr = tbody.getElementsByTagName('tr'); 
+			var removeBtn = document.getElementById('remove-btn');
+			var search = document.getElementById('search');
+
+
+			// 采用事件委托的方式
+			table.addEventListener('click', function(event) {
+				var target = event.target;
+				var checkboxs = document.getElementsByName('username');
+
+				if(target.getAttribute('data-set') == 'delete') {
+
+					deleteTr(target);
+				} else if(target.getAttribute('data-set') == 'alter') {
+
+					alterTr(target);
+				} else if(target.getAttribute('name') == 'username') {
+					
+					if(!target.checked) {
+
+						allCheck.checked = false;						
+						hideRemoveBtn();
+
+						for(var i = 1;i < checkboxs.length;i++) {
+							if(checkboxs[i].checked) {
+								showRemoveBtn();
+							}
+						}
+					} else {
+
+						// 如果所有选中，则全选, 否则不全选。
+						allCheck.checked = true;						
+						for(var i = 1;i < checkboxs.length;i++) {
+							if(!checkboxs[i].checked) {
+								allCheck.checked = false;						
+							}
+						}
+						// 显示删除按钮
+						showRemoveBtn();
+					}
+				}
+			});
+
+//			for(var i = 0;i < aTr.length;i++) {
+//
+//				// 获取每行的最后一个cell
+//				var aTd = aTr[i].cells[aTr[i].cells.length - 1];
+//				var links = aTd.getElementsByTagName('a');
+//
+//				// 修改
+//				links[0].addEventListener('click', (function(index) {
+//
+//					// index代表行号
+//					return function(event) {
+//						alterContent(index, aTr);
+//						event.preventDefault();
+//					};
+//				})(i));
+//
+//
+//				// 删除
+//				links[1].addEventListener('click', (function(index) {
+//					
+//					// index代表行号
+//					return function(event) {
+//						deleteTr(index, aTr);
+//						event.preventDefault();
+//					};
+//				})(i));
+
+//			}
+
+			addBtn.addEventListener('click', popUp);	
+			sureBtn.addEventListener('click', popDown);
+			cancel.addEventListener('click', popDown);
+			allCheck.addEventListener('click', checkAll); // 全选
+			removeBtn.addEventListener('click', function() {
+
+				// 第一步，先得到选中的序号，然后放入一个数组内
+				var deleteArr = getDeleteArr();
+				// 第二步，将数组传递到删除函数里
+				deleteTr(deleteArr);
+			});
+			search.addEventListener('keyup', searchName);
+		}
+		init();
+
+		/**
+		 * CRUD(OK)
+		 * 隔行变色
+		 * 全选删除(OK)
+		 * 排序
+		 * 分页
+		 * localstorage(OK)
+		 */
+	</script>
+</body>
+</html>

@@ -1,0 +1,943 @@
+/* reset */
+* {margin: 0;padding: 0;}
+img {border: 0}
+ul, ol, li {list-style: none;}
+a {text-decoration: none;}
+body {
+	font:14px "宋体",arial, verdana, sans-serif;
+}
+
+/* public */
+.main-wid {
+	width: 1000px;
+	margin: 0 auto;
+}
+.clearfix {
+	content: "";
+	display: block;
+	clear: both;
+}
+/* 新闻样式  */
+.news-list li {
+	line-height: 28px;
+	height: 28px;
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}	
+
+.news-list .has-img {
+	padding-left: 20px;
+	background: url(qq-img/list-before.png) no-repeat left center;
+}
+
+.news-list .has-img-2 {
+	padding-left: 20px;
+	background: url(qq-img/list-before-2.png) no-repeat left center;
+}
+
+.news-list li a {
+	color: rgb(45, 55, 75);
+}
+
+.news-list li span {
+	color: rgb(45, 55, 75);
+}
+
+.news-list li a.important {
+	color: #3B639F;
+	font-weight: bold; 
+}
+
+.news-list li a:hover {
+	text-decoration: underline;
+	color: #cd0200;
+}
+
+.news-list .grey {
+	color: #798ba5;
+}
+
+.news-list .grey:hover {
+	text-decoration: underline;
+	color: #798ba5;
+}
+
+.fl {float: left;}
+.fr {float: right;}
+
+.pt10 {padding-top: 10px;}
+
+.ml6 {margin-left: 6px;}
+.mt10 {margin-top: 10px;}
+.mt19 {margin-top: 19px;}
+.mr20 {margin-right: 20px;}
+.mt15 {margin-top: 17px;}
+.mt20 {margin-top: 20px;}
+.mt16 {margin-top: 16px;}
+.ml1 {margin-left: 1px;}
+.mr16 {margin-right: 16px;}
+.mr17 {margin-right: 17px;}
+.mr20 {margin-right: 20px;}
+.mr13 {margin-right: 13px;}
+.mt12 {margin-top: 12px;}
+.mr11 {margin-right: 11px;}
+.mr15 {margin-right: 15px;}
+.mr10 {margin-right: 10px;}
+.tc {text-align: center;}
+.to-bfc {overflow: hidden;}
+.mt7 {margin-top: 7px;}
+
+
+/* header */
+header {
+	height: 90px;
+}
+
+header .qq-logo {
+	width: 140px;
+	height: 45px;
+	float: left;
+	margin-left: 160px;
+	padding-top: 23px;
+}
+
+header .search-bar {
+	width: 380px;
+	height: 34px;
+	line-height: 34px;
+	float: left;
+	position: relative;
+	border: 1px solid rgb(193, 196, 203);
+	border-top-left-radius: 1px;
+	border-bottom-left-radius: 1px;
+	margin: 28px 0 0 40px;
+}
+
+header .search-nav {
+	padding-left: 11px;
+	color: rgb(168, 168, 168);
+}
+
+header .arrow-down {
+	display: inline-block;
+	vertical-align: middle;
+	width: 10px;
+	height: 6px;
+	margin-left: 8px;
+	background-image: url(qq-img/arrow-down.png);
+}
+
+header .search-text {
+	border: none;
+	outline: none;
+	padding-left: 10px;
+	width: 223px;
+	height: 35px;
+	line-height: 35px;
+	background: url(qq-img/sougo-logo.png) no-repeat 195px center ;
+	background-size: 23px 23px;
+}
+
+header input[type="submit"] {
+	position: absolute;
+	right: -1px;
+	top: -1px;
+	width: 90px;
+	height: 36px;
+	line-height: 36px;
+	text-align: center;
+	color: #fff;
+	font-size: 16px;
+	border: none;
+	background: rgb(93, 164, 230);
+	cursor: pointer;
+}
+
+header .other-nav{
+	float: right; 
+	margin-right: 8px;
+	margin-top: 28px;
+}
+
+header .other-nav li {
+	height: 35px;
+	float: right;
+}
+
+header .other-nav .login-btn {
+	display: inline-block;
+	height: 35px;
+	line-height: 35px;
+	font-size: 14px;
+	padding: 0 2px 0 5px;
+	border: 1px solid rgb(237, 237, 237);
+	background: rgb(245, 245, 245);
+	color: rgb(111, 178, 289);
+}
+
+header .other-nav .mail {
+	padding: 12px 0 8px 0;
+	margin-right: 16px; 
+}
+
+header .other-nav .space {
+	padding: 7px 0 7px 0;
+	margin-right: 16px;
+}
+
+header .other-nav .weibo {
+	padding: 9px 0 7px 0;
+	margin-right: 16px;
+}
+
+
+/* nav */
+nav {
+	height: 65px;
+	background: rgb(61, 149, 213);
+	position: relative;
+}
+
+/*
+ *
+ * ul: nav-list
+ * li: nav-list-items
+ * ul: nav-list-item
+ * */
+
+nav .nav-list {
+	padding-left: 10px;
+	padding-top: 12px;
+	font-size: 14px;
+}
+
+nav .nav-list-items {
+	float: left;
+	padding: 0 18px;
+}
+
+nav .nav-list-items .nav-list-item li {
+	float: left;
+}
+
+nav .nav-list-items .nav-list-item li a {
+	margin-right: 14px;
+	color: #fff;
+}
+
+nav .nav-list-items .nav-list-item li a:hover {
+	background: #cae1ee;
+}
+
+nav .nav-list-items .nav-list-item li a.margin0 {
+	margin: 0;
+}
+
+nav .nav-line {
+	display: inline-block;
+	position: absolute;
+	width: 4px;
+	height: 48px;
+	line-height: 48px;
+	background: url(qq-img/nav-line.png);
+}
+
+nav .line1 {
+	left: 154px;
+}
+
+nav .line2 {
+	left: 305px;
+}
+
+nav .line3 {
+	left: 450px;
+}
+
+nav .line4 {
+	left: 600px;
+}
+
+nav .line5 {
+	left: 749px;
+}
+
+nav .line6 {
+	left: 894px;
+}
+
+/* ad1 */
+.ad1 {
+	height: 75px;
+	padding: 12px 0;
+}
+
+.ad1 .l-img {
+	width: 700px; 
+	height: 75px;
+	cursor: pointer;
+}
+
+.ad .r-img {
+	width: 280px;
+	height: 75px;
+}
+
+
+/* qq-con1 */
+.qq-con1 {
+	width: 700px;
+	height: 970px;
+	overflow:hidden;
+}
+
+.qq-con1 .qq-content-left {
+	width: 350px;
+}
+
+/* qq-content-news1 */
+
+.qq-con1 .qq-content-news {
+	width: 350px;
+}
+
+
+.qq-con1 .qq-content-news-1 .hd {
+	height: 33px;
+	width: 100%;
+	border-top :1px solid #c8dcf2;
+}
+
+.qq-con1 .qq-content-news-1 .news-hd {
+	margin-top: -1px;
+}
+
+.qq-con1 .qq-content-news-1 .news-hd a {
+	font-size: 14px;
+	padding: 0 18px;
+	height: 32px;
+	line-height: 32px;
+	padding-top: 2px;
+	color: rgb(8, 115, 192);
+	float: left;
+	font-weight: bold;
+}
+
+.qq-con1 .qq-content-news-1 .news-hd a:hover {
+	text-decoration: underline;	
+}
+
+
+.qq-con1 .qq-content-news-1 .hd .selected {
+	background: url(qq-img/news-line.png) repeat-x;
+}
+
+.city-weat-c  {
+	float: right;
+	margin-right: 22px;
+	padding-top: 9px;
+	font-size: 12px;
+	color: rgb(102, 102, 102);
+}
+
+.city-weat-c * {
+	float: right;
+	cursor: pointer;
+}
+
+.city-weat-c .pr9 {
+	padding: 0 9px;
+}
+
+.city-weat-c span {
+	margin-top: 1px;
+}
+
+
+
+
+/* qq-content-news-2 */
+.qq-content-news-2 {
+	margin-top: 12px;
+}
+
+.qq-content-news-2 .hd a {
+	float: left;
+}
+
+.qq-content-news-2 .hd img {
+	width: 108px;
+	height: 70px;
+}
+
+.qq-content-news-2 .hd h3 {
+	float: right;
+	margin-right: 30px;
+	width: 200px;
+	line-height: 28px;
+}
+
+.qq-content-news-2 .hd h3 a {
+	font-size: 14px;
+	color: #3B639F;
+}
+.qq-content-news-2 .hd h3 a:hover {
+	text-decoration: underline;
+}
+
+
+/* 今日开始 */
+.qq-content-right {
+	width: 330px;
+	border-top :1px solid #c8dcf2;
+	float: right;
+}	
+
+.qq-content-right .hd {
+	height: 32px;
+	line-height: 32px;
+	padding-top: 2px;
+	color: rgb(t-1-1.png, 115, 192);
+	font-weight: bold;
+    padding: 0 18px;
+    float: left;
+}
+
+.qq-content-right .selected {
+	background: url(qq-img/news-line.png) repeat-x;
+	margin-top: -1px;
+}
+
+.qq-content-right .hd:hover {
+	text-decoration: underline;
+}
+
+.qq-content-right .video {
+	height: 100px;
+}
+
+.qq-content-right .video p {
+	width: 100%;
+	font-size: 12px;
+	text-align: center;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.qq-content-right .video p a {
+	color: rgb(45, 55, 75);
+}
+
+.qq-content-right .video p a:hover {
+	text-decoration: underline;
+}
+
+
+/* qq-con1-right */
+.qq-con1-right {
+	width :280px;
+}
+
+.qq-con1-right .first-section {
+	box-sizing: border-box;
+	width: 280px;
+	height: 240px;
+	border: 1px solid rgb(210, 225, 241);
+	font-size: 13px;
+}
+
+.qq-con1-right .first-section .first-line {
+	padding: 11px 0 0 11px;
+	background: url(qq-img/qq-content-right-1-1.png) no-repeat 250px 12px;
+	/*设置图片的左上角的坐标为向右移动250px，向下移动12px。*/
+	background-size: 17px 15px;
+	height: 25px;
+}
+
+.qq-con1-right .first-section .second-line {
+	padding: 10px 0 0 12px;
+	background: rgb(245, 258, 252) url(qq-img/qq-content-right-1-2.png) no-repeat 250px 10px;
+	height: 25px;
+	/*设置图片的左上角的坐标为向右移动250px，向下移动12px。*/
+}
+
+.qq-con1-right .third-line {
+	padding: 10px 0 0 12px;
+	background: #fff url(qq-img/qq-content-right-1-3.png) no-repeat 254px 27px;
+	line-height: 27px;
+}
+
+.qq-con1-right .forth-line {
+	padding: 10px 0 0 12px;
+	background: rgb(245, 248, 252) url(qq-img/qq-content-right-1-4.png) no-repeat 252px 27px;
+	line-height: 27px;
+}
+
+.qq-con1-right .fifth-line {
+	padding: 10px 0 0 10px;
+	background: #fff url(qq-img/qq-content-right-1-5.png) no-repeat 254px 15px;
+	line-height: 27px;
+}
+
+
+.qq-con1-right .first-section a {
+	color: rgb(41, 76, 127);
+}
+
+.qq-con1-right .first-section a:hover {
+	text-decoration: underline;
+}
+
+.qq-con1-right .first-section .important {
+	color: rgb(189, 10, 1);
+}
+
+
+/* jd-ad */
+.jd-ad {
+	width: 278px;
+	height: 318px;
+	position: relative;
+	border: 1px solid rgb(200, 22, 35);
+	margin-top: 12px;
+}
+
+.jd-ad .jd-logo {
+	position: absolute;
+	left: -1px;
+	top: -1px;
+	width: 130px;
+	height: 21px;
+	z-index: 1;
+}
+
+.jd-ad .jd-logo img {
+	width: 130px;
+	height: 21px;
+}
+
+.jd-ad .img-list {
+	position: absolute;
+	left:0;
+	top: 0;
+}
+
+.jd-ad .img-list li {
+	float: left;
+}
+
+.jd-ad .img-list img {
+	width: 100%;
+	height: 280px;
+}
+
+.jd-ad .l, .jd-ad .r {
+	position: absolute;
+	top: 140px;
+	width: 13px;
+	height: 26px;
+	background: url(qq-img/arrow.png);
+	margin-top: 2px;
+	cursor: pointer;
+}
+
+.jd-ad .l {
+	margin-left: 4px;
+}
+
+.jd-ad .r {
+	right: 0;
+	background: url(qq-img/arrow.png) -13px;
+	margin-right: 4px;
+}
+
+.jd-ad .money {
+	width: 100%;
+	height: 60px;
+	background: #fff;
+	/*
+	opacity: 0.5;
+	filter: alpha(opacity=50);
+	*/
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	z-index: 2;
+}
+
+.jd-ad .money .rmb {
+	position: absolute;
+	bottom: 5px;
+	left: 25px;
+	color: rgb(200, 22, 35);
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.jd-ad .money .rmb-num {
+	position: absolute;
+	bottom: 6px;
+	left: 42px;
+	font-weight: bold;
+	color: rgb(200, 22, 35);
+	font-size: 16px;
+}
+
+.jd-ad .num {
+	position: absolute;
+	right: 30px;
+	bottom: 1px;
+	border: 1px solid rgb(200, 22, 35);
+	color: rgb(200, 22, 35);
+	line-height: 19px;
+	width: 46px;
+	z-index: 3;
+	padding: 0 6px;
+}
+
+/* 股票section */
+.shares {
+	width: 278px;
+	height: 188px;
+	border: 1px solid rgb(210, 225, 241);
+	margin-top: 12px;
+}
+
+.shares .shares-inner {
+	padding: 14px 0 0 10px;
+}
+
+.shares h4 {
+	color: rgb(8, 115, 192);
+}
+
+.shares .search-bar {
+	width: 141px;
+	height: 19px;
+	border: 1px solid rgb(212, 212, 212);
+	line-height: 19px;
+	position: relative;
+	right: 48px;
+}
+
+.shares .hd {
+	overflow: hidden;
+}
+
+.shares .search-bar input[type="text"] {
+	border: none;
+	outline: none;
+	text-indent: 3px;
+	width: 107px;
+}
+
+.shares .search-bar input[type="submit"] {
+	border: none;
+	outline: none;
+	position: absolute;
+	right: -1px;
+	top: -1px;
+	background-color: rgb(89, 179, 238);
+	font-size: 12px;
+	height: 21px;
+	text-align: center;
+	width: 35px;
+	color: #fff;
+	cursor: pointer;
+}
+
+.shares-company {
+	clear: both;
+	margin-top: 17px;
+}
+
+.shares-company li {
+	float: left;
+	height: 22px;
+	width: 47px;
+	text-align: center;
+	line-height: 22px;
+	font-size: 12px;
+}
+
+.shares-company .border-r {
+	border-right: 1px solid rgb(221, 231, 242);
+}
+
+.shares-company .selected {
+	background: rgb(69, 143, 206);
+	cursor: pointer;
+	color: #fff;
+}
+
+.shares-company .selected a {
+	color: #fff;
+}
+
+.shares-company li a {
+	color: rgb(59, 99, 159);
+}
+
+.shares .item {
+	margin-top: 5px;
+}
+
+.shares .item .info {
+	padding-top: 3px;
+	margin-bottom: 12px;
+}
+
+.shares .item .info .info-1 {
+	font-size: 12px;
+	color: rgb(55, 69, 98);
+}
+
+.shares .item .info .info-2 {
+	display: inline-block;
+	font-size: 14px;
+	color: rgb(65, 169, 141);
+	height: 32px;
+	line-height: 32px;
+}
+
+.shares .login {
+
+}
+
+.shares .item .info .info-3 {
+	font-size: 12px;
+	color: rgb(65, 169, 141);
+}
+
+.shares .login {
+	color: rgb(23, 44, 69);
+}
+
+.shares .login:hover {
+	text-decoration: underline;
+	color: #cd0200;
+}
+
+
+/* 星座section */
+.xingzuo {
+	width: 278px;
+	height: 181px;
+	border: 1px solid rgb(210, 225, 241);
+	margin-top: 12px;
+}
+
+.xingzuo .inner {
+	padding: 9px 0 0 15px;
+}
+
+.xingzuo h4 {
+	color: rgb(8, 115, 192);
+}
+
+.xingzuo .xz-img {
+	display: inline-block;
+	padding: 20px 16px 10px 10px;
+}
+
+.xingzuo .xz-info {
+	margin-top: 12px;
+}
+
+.xingzuo select {
+	border: 1px solid grey;
+	outline: none;
+}
+
+.xingzuo .today {
+	font-size: 12px;
+	padding-top: 10px;
+	float: left;
+}
+
+.xingzuo .today + div {
+	margin-top: 10px;
+	float: left;
+}
+
+.xingzuo .xz-tz {
+	clear: both;
+	text-align: justify;
+	padding-right: 26px;
+	line-height: 26px;
+	color: rgb(50, 63, 90);
+}
+
+.xingzuo .xz-tz a {
+	color: rgb(50, 63, 90);
+}
+
+
+
+
+/* qq-con部分，提取了公共样式  */
+.qq-con {
+}
+
+.qq-con .qq-con-left {
+	width: 660px;
+}
+
+.qq-con .hd {
+	width: 100%;
+	height: 29px;
+	background: rgb(247, 250, 253);
+	line-height: 29px;
+	font-weight: 700;
+	border-top: 2px solid #6daaea;
+	color: rgb(8, 115, 192);
+}
+
+.qq-con .hd-nopadding {
+	background: #fff;
+	border-top: 1px solid #6daaea;
+}
+
+.qq-con .hd-noback {
+	width: 100%;
+	border-top: 1px solid #6daaea;
+	background: #fff;
+}
+
+.qq-con .main-wid-top {
+	height: 29px;
+	line-height: 29px;
+	font-weight: 700;
+	color: rgb(8, 115, 192);
+}
+
+.qq-con .main-wid-top a {
+	color: rgb(8, 115, 192);
+}
+
+.qq-con .hd a, .qq-con .hd-noback a {
+	font-size: 14px;
+	color: rgb(8, 115, 192);
+}
+
+.qq-con .change-pd a {
+	margin-right: 5px;
+	font-weight: 400;
+}
+
+.qq-con .hd i {
+	/*直接设置背景图是不能撑开的，因为里面没有文字，所以要设置高度和宽度, 但是i是inline元素，所以要改变它的display*/
+	display: inline-block;
+	width: 8px;
+	height: 5px;
+	background: url(qq-img/hd-arrow.png) no-repeat center;
+	vertical-align: middle;
+}
+
+.qq-con .qq-con-left-1, .qq-con .qq-con-left-2,
+.qq-con .qq-con-right-1 {
+	padding-top: 17px;
+}
+
+.qq-con .top p a {
+	color: rgb(59, 99, 159); 
+}
+
+.qq-con .top p a:hover {
+	text-decoration: underline;
+}
+
+.qq-con .top p {
+	padding-top: 11px;
+	line-height: 27px;
+	width: 182px;
+	font-weight: 700;
+}
+
+.qq-con img {
+	width: 108px;
+	height: 70px;
+}
+
+.qq-con .qq-con-left .qq-con-left-1, .qq-con .qq-con-left .qq-con-left-2, 
+.qq-con-right {
+	width: 320px;
+}
+
+.qq-con .list {
+	width: 320px;
+	padding-right: 20px;
+}
+
+.qq-con .list .top {
+	padding-top: 17px;
+}
+
+.qq-con .list-nopadding {
+	padding: 0;
+}
+
+/*读书部分*/
+.qq-con .qq-con-right .img-list img {
+	width: 85px;
+	height: 110px;
+	margin-right: 20px;
+}
+
+/* 竖线的颜色 */
+.qq-con .qq-con-right .news-list {
+	color: #8191a3;
+}
+
+
+/* 儿童特殊的部分 */
+.qq-con .qq-con-left-2 .et-img-list {
+
+}
+
+.qq-con .qq-con-left-2 .et-img-list img {
+	width: 60px;
+	height: 60px;
+}
+
+.qq-con .qq-con-left-2 .et-img-list p {
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	margin-top: 5px;
+	text-align: center;
+	width: 60px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis; 
+	margin-right: 20px;
+	font-weight: 400;
+	line-height: 12px;
+}
+
+.qq-con .qq-con-left-2 .et-img-list p a {
+	color: rgb(23, 44, 69);
+}
+
+/* 育儿那一行特殊广告 */
+.qq-con .gg {
+	width: 320px;
+	height: 287px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

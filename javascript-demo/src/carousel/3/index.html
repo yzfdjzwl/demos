@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>轮播图</title>
+	<style>
+		.slide-container {
+			width: 800px;
+			height: 300px;
+			position: relative;
+			margin: 20px auto;
+		}
+
+		.slides {
+			/*display: none;*/
+			width: 800px;
+			height: 300px;
+			display: none;
+		}
+
+		.slide-container .active {
+			display: block;
+		}
+
+		.slide-container img {
+			width: 800px;
+			height: 300px;
+			position:absolute;
+			left: 0;
+			top: 0;
+		}
+
+		.slide-container .number-text {
+			position: absolute;
+			z-index: 1;
+			top: 10px;
+			left: 10px;
+			padding: 10px;
+			color: #fff;
+			font-weight: bold;
+		}
+
+		.slide-container .prev, .slide-container .next {
+			cursor: pointer;
+			position: absolute;
+			top: 50%;
+			font-weight: 700;
+			padding: 5px;
+			background: black;
+			color: #fff;
+			margin-top: -14px;
+		}
+
+		.slide-container .prev {
+			left: 0px;
+		}
+	
+		.slide-container .next {
+			right: 0px;
+		}
+
+		.slide-container .text {
+			position: absolute;
+			width: 100%;
+			bottom: 50px;
+			text-align: center;
+			color: #fff;
+		}
+
+		.line-dot {
+			position: absolute;
+			bottom: 10px;
+			width: 100%;
+			text-align: center;
+		}
+
+		.line-dot .dot {
+			cursor: pointer;
+			display: inline-block;
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background: #bbb;
+			margin: 0 2px;
+			transition: background-color 0.6s ease;
+		}
+
+		.line-dot .active, .line-dot .dot:hover {
+			background-color: #717171;
+		}
+
+		/*animation*/
+		@keyframes fade {
+			from {opacity: .4;}
+			to {opacity: 1}
+		}
+
+		.fade {
+			animation-name: fade;
+			animation-duration: .4s;
+		}
+		
+	</style>
+</head>
+<body>
+	<div class="slide-container">
+		<div class="slides active fade">
+			<div class="number-text">1 / 3</div>
+			<img src="images/1.jpg" alt="" title="">
+			<div class="text">This is a text</div>
+		</div>
+
+		<div class="slides fade">
+			<div class="number-text">2 / 3</div>
+			<img src="images/2.jpg" alt="" title="">
+			<div class="text">This is a text</div>
+		</div>
+
+		<div class="slides fade">
+			<div class="number-text">3 / 3</div>
+			<img src="images/3.jpg" alt="" title="">
+			<div class="text">This is a text</div>
+		</div>
+
+		<a id="prev" class="prev">&lt;</a>
+		<a id="next" class="next">&gt;</a>
+
+		<div class="line-dot" id="line-dot">
+			<span class="dot active"></span>
+			<span class="dot"></span>
+			<span class="dot"></span>
+		</div>
+	</div>
+	<script>
+		var container = document.getElementsByClassName('slide-container')[0];
+		var lists = container.getElementsByClassName('slides');
+		var lineDot = document.getElementById('line-dot');
+		var dots = lineDot.getElementsByClassName('dot');
+		var prev = document.getElementById('prev');
+		var next = document.getElementById('next');
+		var slideIndex = 1;
+
+		prev.addEventListener('click', function() {
+			plusSlides(-1);
+		}, false);
+
+		next.addEventListener('click', function() {
+			plusSlides(1);
+		}, false);
+
+		function plusSlides(n) {
+			showSlides(slideIndex += n);
+		}
+
+		function currentSlides(n) {
+			showSlides(slideIndex = n);
+		}
+
+		// 这里用了闭包
+		(function() {
+			for(var i = 0;i < dots.length;i++) {
+				dots[i].addEventListener('click', (function(n) {
+					return function() {
+						console.log(n + 1);
+						currentSlides(n + 1);
+					};
+				})(i), false);
+			}
+		})();
+		
+
+
+		function showSlides(n) {
+			var len = lists.length;
+			if(n < 1) {	slideIndex = len;}
+			if(n > len) { slideIndex = 1;}
+
+			// 第一步，设置所有的display为none 
+			for(i = 0;i < len;i++) {
+				lists[i].style.display = 'none';
+			}
+
+			// 第二步，将所有的都dot样式都清空
+			for(i = 0;i < len;i++) {
+				dots[i].className = dots[i].className.replace(' active', '');
+			}
+
+			// 设置当前的图片以及当前的dot
+			lists[slideIndex - 1].style.display = 'block';
+			dots[slideIndex - 1].className += ' active';
+		}
+	</script>
+</body>
+</html>

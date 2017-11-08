@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>透明度变化图片轮播</title>
+	<style type="text/css">
+		* {margin: 0; padding: 0;}
+		ul, li {list-style: none;}
+		.carousel {height: 270px;width: 500px;border: 1px solid #f1f1f1;position: relative;margin: 5px 19px;} 
+		.carousel img {height: 270px;width: 500px;}
+		.carousel .banner_bg {position: absolute;width: 100%;height: 30px;bottom: 0;left: 0;background: #000;opacity: 0.3;z-index: 1;}
+		.carousel .banner {display: block;position: absolute;bottom: 0;left: 5px;color:#fff;z-index: 2;line-height: 30px;width: 340px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+		.carousel ul {position: absolute;bottom: 3px;right: 5px;z-index: 3;}
+		.carousel ul li {float: left;display: block;padding: 0 8px;color: #fff;border: 1px solid #fff;background: #6f4f67;cursor: pointer;opacity: 0.75;}
+		.carousel ul li.on {background: #900;}
+		.carousel .banner_list a {position: absolute;}
+		.warper {margin: 30px auto;width: 505px;}
+		.clearfix::after {clear:both;content:"";display:block;}
+	</style>
+</head>
+<body>
+	<div class="warper">
+		<div class="carousel">
+			<div class="banner_bg"></div> <!--标题背景-->
+			<a class="banner" id="banner_info" href="#">你好呀</a>	 <!--标题-->
+			<ul class="list" id="banner_list">
+				<!-- <li class="on">1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li> -->
+			</ul>
+			<div class="banner_list" id="banner_imgs">
+				<a href="#" target="_blank"><img src="images/1.jpg" title="图片1"alt="" /></a>
+				<a href="#" target="_blank"><img src="images/2.jpg" title="图片2"alt="" /></a>
+				<a href="#" target="_blank"><img src="images/3.jpg" title="图片3"alt="" /></a>
+				<a href="#" target="_blank"><img src="images/4.jpg" title="图片4"alt="" /></a>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function $(id) {
+			return document.getElementById(id);
+		}
+		var bannerInfo = $("banner_info");
+		var bannerList = $("banner_list");
+		var bannerImgs = $("banner_imgs");
+		carousel(4, bannerInfo, bannerList, bannerImgs, true);
+
+		function carousel(count, bannerInfo, bannerList, bannerImgs, isAuto) {
+			// 获取图片
+			var img = bannerImgs.getElementsByTagName("a");
+
+			// 存放li标签
+			var num = new Array();
+			var frag = document.createDocumentFragment();
+
+			// 1. 创建li标签
+			for(var i = 0;i < count;i++) {
+				(num[i] = frag.appendChild(document.createElement("li"))).innerHTML = i + 1;
+			}
+			bannerList.appendChild(frag);	
+
+			// 2. 初始化
+			num[0].className = "on";
+			bannerInfo.innerHTML = img[0].firstChild.title;
+			var currentIndex = 0; // 当前图片序号
+			var targetIndex = 0; // 目标图片序号
+
+			// 3. 将除了第一张图片以外，所有图片的透明度设置为0
+			for(var i = 0;i < count;i++) {
+				if(i != 0) {
+					setOpacity(img[i], 0);
+				}
+			}
+			// 4. 为所有的li标签添加点击事件
+			for(var i = 0;i < count;i++) {
+				num[i].index = i;
+				num[i].onclick = function() {
+					targetIndex = this.index;
+					if(targetIndex == currentIndex) {
+						return;
+					}
+					// 设置当前图片透明度变为0
+					fadeOut(img[currentIndex]);
+					num[currentIndex].className = "";
+					// 设置目标图片透明度为100 
+					fadeIn(img[targetIndex]);
+					num[targetIndex].className = "on";
+					// 设置当前点击的目标图片为下一次的当前图片
+					currentIndex = this.index;
+					// 切换文字
+					bannerInfo.innerHTML = img[targetIndex].firstChild.title;
+				}
+			}
+			if(isAuto) {
+				// 设置自动轮播
+				var timer = setInterval(function() {
+					if(targetIndex < count - 1) {
+						targetIndex++;
+					} else {
+						targetIndex = 0;
+					}
+					if(currentIndex == targetIndex) {
+						return;
+					}
+					fadeOut(img[currentIndex]);
+					num[currentIndex].className = "";
+
+					fadeIn(img[targetIndex]);
+					num[targetIndex].className = "on";
+
+					currentIndex = targetIndex;
+					bannerInfo.innerHTML = img[targetIndex].firstChild.title;
+				}, 2000);
+
+				bannerList.onmouseover = function() {
+					clearInterval(timer);
+				}
+				bannerList.onmouseout = function() {
+					 	timer = setInterval(function() {
+						if(targetIndex < count - 1) {
+							targetIndex++;
+						} else {
+							targetIndex = 0;
+						}
+						if(currentIndex == targetIndex) {
+							return;
+						}
+						fadeOut(img[currentIndex]);
+						num[currentIndex].className = "";
+
+						fadeIn(img[targetIndex]);
+						num[targetIndex].className = "on";
+
+						currentIndex = targetIndex;
+						bannerInfo.innerHTML = img[targetIndex].firstChild.title;
+					}, 2000);
+				}
+			}
+
+
+			function setOpacity(elem, level) {
+				if (elem.filters) {
+					elem.style.filter = "alpha(opacity=" + level + ")";
+				} else {
+					elem.style.opacity = level / 100;
+				}
+			}
+
+			function fadeIn(elem) {
+				setOpacity(elem, 0); 
+				for(var i = 0;i <= 20;i++) {
+					(function() {
+						var pos = i * 5;
+						setTimeout(function() {
+							setOpacity(elem, pos);
+						}, i * 25);
+					})(i);
+				}
+			}
+
+			function fadeOut(elem) {
+				for(var i = 0;i <= 20;i++) {
+					(function() {
+						var pos = 100 - i * 5;
+						setTimeout(function() {
+							setOpacity(elem, pos);
+						}, i * 25);
+					})(i);
+				}
+			}
+		}
+	</script>
+</body>
+</html>

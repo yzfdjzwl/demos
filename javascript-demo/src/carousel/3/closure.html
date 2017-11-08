@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+	<script>
+		for(var i = 0;i < 5;i++) {
+
+			// 5 个 5
+			// 形成了1个闭包，内部函数访问外部变量i, 只有1个值
+			setTimeout(function() {
+				console.log(i);
+			}, i * 1000);
+		}
+
+		for(var i = 0;i < 5;i++) {
+
+			// 5 个 5
+			// 自执行而已，和上面没有多大区别
+			(function() {
+				 setTimeout(function timer() {
+					 console.log(i);
+				 }, i * 1000);
+			 })();
+		}
+
+		for(var i = 0;i < 5;i++) {
+
+			// 0 1 2 3 4
+			// 因为j。
+			(function() {
+			 	 var j = i;
+				 setTimeout(function timer() {
+					 console.log(j);
+				 }, j * 1000);
+			 })();
+		}
+
+		for(var i = 0;i < 5;i++) {
+
+			// 0 1 2 3 4
+			// 因为j。
+			// 创建了一个自动执行(也是匿名)函数，虽然i的值依然会变，但是本地私有变量(形参) i 不会受影响，其值在调用的开始
+			// 就已经决定了。
+
+			(function(j) {
+				 setTimeout(function timer() {
+					 console.log(j);
+				 }, j * 1000);
+			 })(i);
+		}
+	</script>
+</body>
+</html>
