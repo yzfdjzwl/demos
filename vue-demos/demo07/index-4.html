@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+    <ul id="app">
+        <li v-for="(value, key) in object">
+            {{ key }} - {{ value }}
+        </li>
+    </ul>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                object: {
+                    firstname: 'yu',
+                    lastname: 'zhengfeng',
+                    age: 18,
+                }
+            }
+        });
+    </script>
+</body>
+</html>
