@@ -21,14 +21,48 @@
             position: relative;
         }
         .avatar {
-            /* float: left; */
+            /* no use this method: float: left; */
             position: absolute;
             width: 100px;
             height: 100px;
+            border: 1px solid red;
+            /* for img: you can set img width: 50%, height to see the effect */
+            text-align: center;
+            overflow: hidden;
+        }
+        .avatar img {
+            width: 100%;
         }
         .content {
-            /* float: left; */
-            margin-left: 100px;
+            margin-left: 130px;
+        }
+        .shop-mid-line {
+            height: 23px;
+            font-size: 20px;
+        }
+        .clearfix:after {
+            display: block;
+            content: '';
+            clear: both;
+        }
+        .appr-status {
+            margin-top: 10px;
+            float: left;
+        }
+        .appr-score {
+            background: url('http://xs01.meituan.net/waimai_i/img/sprite/newstars.ae33dbae.png');
+            background-size: cover;
+            height: 10px;
+            width: 10px;
+            float: left;
+            margin-right: 6px;
+            background-position: 0 0;
+        }
+        .fr {
+            float: right;
+        }
+        .fl {
+            float: left;
         }
     </style>
 </head>
@@ -40,7 +74,19 @@
             </div>
             <div class="content">
                 <div class="shop-title">我是一个title</div>
-                <div class="shop-mid-line"></div>
+                <div class="shop-mid-line clearfix">
+                    <div class="appr-status">
+                        <i class="appr-score"></i>
+                        <i class="appr-score"></i>
+                        <i class="appr-score"></i>
+                        <i class="appr-score"></i>
+                        <i class="appr-score"></i>
+                    </div>
+                    <div class="fl">月售1000</div>
+                    <i class="fr">2.2km</i>
+                    <i class="fr">|</i>
+                    <i class="fr">40min</i>
+                </div>
                 <div class="shop-line"></div>
             </div>
         </div>
